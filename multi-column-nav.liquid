@@ -1,0 +1,35 @@
+{% assign brand_menu = link.handle  %}
+{% if linklists[brand_menu].links.size > 8 %}
+   {% assign split_factor = linklists[brand_menu].links.size  | divided_by: 4.0  | ceil  %}
+  
+  
+{% else %}
+   {% assign split_factor = linklists[brand_menu].links.size %}
+{% endif %}   
+
+<li class="grandparent  kids-4">
+    <a href="{{ link.url }}" class="nav-link">{{ link.title | escape }}</a>
+    <a href="#" class="nav-carat"><span class="plus">+</span><span class="minus">-</span></a>
+      <div class="main-menu-dropdown">
+        <ul>
+          {% for i in (1..4) %}
+           <li class="parent">
+             <div class="main-menu-dropdown">
+                <ul>
+                  {% for l in linklists[brand_menu].links limit: split_factor offset: offset_factor %}
+                   <li class="">
+                  <a href="{{ l.url }}">{{ l.title }}</a>
+           </li>
+                  {% endfor %}
+          </ul>
+           </div>
+       </li>
+           {% assign offset_factor = offset_factor | plus: split_factor %}
+          {% endfor %}
+     
+          
+        </ul>
+      </div>
+    
+  </li>
+
